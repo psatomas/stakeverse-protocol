@@ -12,4 +12,6 @@ dist/
 
 typechain-types/
 
+types/
+
 .DS_Store
