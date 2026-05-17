@@ -73,6 +73,7 @@ contract StakeVerseDAO is Ownable {
     function vote(uint256 proposalId, bool support) external {
         Proposal storage proposal = proposals[proposalId];
 
+        require(proposal.id != 0, "Proposal does not exist");
         require(block.timestamp < proposal.deadline, "Voting period ended");
         require(!hasVoted[proposalId][msg.sender], "Already voted");
 
@@ -99,6 +100,7 @@ contract StakeVerseDAO is Ownable {
     function executeProposal(uint256 proposalId) external {
         Proposal storage proposal = proposals[proposalId];
 
+        require(proposal.id != 0, "Proposal does not exist");
         require(block.timestamp >= proposal.deadline, "Voting still active");
         require(!proposal.executed, "Proposal already executed");
 

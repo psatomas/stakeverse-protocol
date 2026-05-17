@@ -49,7 +49,7 @@ export async function getAllProposals(): Promise<Proposal[]> {
 
   const proposals: Proposal[] = [];
 
-  for (let i = 0; i < proposalCount; i++) {
+  for (let i = 1; i <= proposalCount; i++) {
     const proposal = await getProposal(i);
 
     proposals.push(proposal);
@@ -73,12 +73,14 @@ export async function voteProposal(
 }
 
 export async function createProposal(
-  description: string
+  description: string,
+  durationInSeconds: number
 ) {
   const contract = await getDAOContract();
 
   const tx = await contract.createProposal(
-    description
+    description,
+    durationInSeconds
   );
 
   await tx.wait();
