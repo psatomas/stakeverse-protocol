@@ -14,4 +14,4 @@ typechain-types/
 
 types/
 
-.DS_Store
+.DS_Store.vscode/
