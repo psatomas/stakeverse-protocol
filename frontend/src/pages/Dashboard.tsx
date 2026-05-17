@@ -6,7 +6,7 @@ import StatsGrid from "../components/dashboard/StatsGrid";
 
 import StakingPanel from "../components/staking/StakingPanel";
 
-import ProposalCard from "../components/governance/ProposalCard";
+import GovernancePanel from "../components/governance/GovernancePanel";
 
 import { useWallet } from "../hooks/useWallet";
 
@@ -62,6 +62,10 @@ export default function Dashboard() {
 
       await reload();
 
+      alert("Tokens staked");
+    } catch (error) {
+      console.error(error);
+
       alert("Stake failed");
     } finally {
       setLoading(false);
@@ -93,40 +97,26 @@ export default function Dashboard() {
         connect={connect}
       />
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-10">
+      <main className="relative z-10 mx-auto max-w-7xl space-y-8 px-6 py-10">
         <StatsGrid
           balance={balance}
           staked={staked}
           rewards={rewards}
         />
 
-        <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <div className="xl:col-span-2">
-            <StakingPanel
-              amount={amount}
-              setAmount={setAmount}
-              loading={loading}
-              onApprove={handleApprove}
-              onStake={handleStake}
-              onClaim={handleClaim}
-            />
-          </div>
+        <section>
+          <StakingPanel
+            amount={amount}
+            setAmount={setAmount}
+            loading={loading}
+            onApprove={handleApprove}
+            onStake={handleStake}
+            onClaim={handleClaim}
+          />
+        </section>
 
-          <div className="space-y-5">
-            <ProposalCard
-              title="Increase staking rewards"
-              status="Active"
-              votesFor="67%"
-              votesAgainst="33%"
-            />
-
-            <ProposalCard
-              title="Treasury diversification"
-              status="Pending"
-              votesFor="52%"
-              votesAgainst="48%"
-            />
-          </div>
+        <section>
+          <GovernancePanel />
         </section>
       </main>
     </div>

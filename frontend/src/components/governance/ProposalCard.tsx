@@ -1,52 +1,96 @@
-type Props = {
-  title: string;
-  status: string;
-  votesFor: string;
-  votesAgainst: string;
-};
+import type { Proposal } from "../../contracts/dao";
+
+interface ProposalCardProps {
+  proposal: Proposal;
+  onVoteYes: (id: number) => void;
+  onVoteNo: (id: number) => void;
+  txLoading: boolean;
+}
 
 export default function ProposalCard({
-  title,
-  status,
-  votesFor,
-  votesAgainst,
-}: Props) {
+  proposal,
+  onVoteYes,
+  onVoteNo,
+  txLoading,
+}: ProposalCardProps) {
+  const isExpired =
+    Date.now() > proposal.deadline * 1000;
+
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium text-base">
-          {title}
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-white">
+          Proposal #{proposal.id}
         </h3>
 
-        <span className="rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs text-indigo-300">
-          {status}
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-medium ${
+            proposal.executed
+              ? "bg-green-500/20 text-green-400"
+              : "bg-yellow-500/20 text-yellow-400"
+          }`}
+        >
+          {proposal.executed
+            ? "Executed"
+            : "Active"}
         </span>
       </div>
 
-      <div className="space-y-2 mb-5">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-zinc-400">
-            For
-          </span>
+      <p className="mb-6 text-zinc-300">
+        {proposal.description}
+      </p>
 
-          <span>{votesFor}</span>
+      <div className="mb-6 grid grid-cols-2 gap-4">
+        <div className="rounded-xl bg-zinc-800 p-4">
+          <p className="text-sm text-zinc-400">
+            Yes Votes
+          </p>
+
+          <p className="text-2xl font-bold text-green-400">
+            {proposal.yesVotes}
+          </p>
         </div>
 
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-zinc-400">
-            Against
-          </span>
+        <div className="rounded-xl bg-zinc-800 p-4">
+          <p className="text-sm text-zinc-400">
+            No Votes
+          </p>
 
-          <span>{votesAgainst}</span>
+          <p className="text-2xl font-bold text-red-400">
+            {proposal.noVotes}
+          </p>
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <button className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-sm font-medium hover:bg-emerald-500 transition-all">
+      <div className="mb-4 text-sm text-zinc-500">
+        Deadline:{" "}
+        {new Date(
+          proposal.deadline * 1000
+        ).toLocaleString()}
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          onClick={() => onVoteYes(proposal.id)}
+          disabled={
+            txLoading ||
+            proposal.executed ||
+            isExpired
+          }
+          className="flex-1 rounded-xl bg-green-600 px-4 py-3 font-medium text-white transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+        >
           Vote Yes
         </button>
 
-        <button className="flex-1 rounded-xl bg-rose-600 py-2.5 text-sm font-medium hover:bg-rose-500 transition-all">
+        <button
+          onClick={() => onVoteNo(proposal.id)}
+          disabled={
+            txLoading ||
+            proposal.executed ||
+            isExpired
+          }
+          className="flex-1 rounded-xl bg-red-600 px-4 py-3 font-medium text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
+        >
           Vote No
         </button>
       </div>
