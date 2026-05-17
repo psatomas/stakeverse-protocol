@@ -15,3 +15,4 @@ typechain-types/
 types/
 
 .DS_Store.vscode/
+.vscode/
