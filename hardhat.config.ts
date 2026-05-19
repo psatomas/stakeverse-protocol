@@ -1,11 +1,17 @@
-import { defineConfig, configVariable } from "hardhat/config";
-import hardhatEthers from "@nomicfoundation/hardhat-ethers";
+import { defineConfig, configVariable }
+from "hardhat/config";
+
+import hardhatToolboxMochaEthersPlugin
+from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 
 export default defineConfig({
-  plugins: [hardhatEthers],
+  plugins: [
+    hardhatToolboxMochaEthersPlugin,
+  ],
 
   solidity: {
     version: "0.8.28",
+
     settings: {
       optimizer: {
         enabled: true,
@@ -23,8 +29,16 @@ export default defineConfig({
     sepolia: {
       type: "http",
       chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+
+      url: configVariable(
+        "SEPOLIA_RPC_URL"
+      ),
+
+      accounts: [
+        configVariable(
+          "SEPOLIA_PRIVATE_KEY"
+        ),
+      ],
     },
   },
 });
