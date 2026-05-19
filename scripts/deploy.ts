@@ -1,7 +1,13 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
+import "dotenv/config";
 
 async function main() {
+  const pk = process.env.SEPOLIA_PRIVATE_KEY;
+
+  console.log("PK exists:", !!pk);
+  console.log("PK length:", pk?.length);
+  console.log("PK starts with 0x:", pk?.startsWith("0x"));
   console.log("🚀 Deploying StakeVerse Protocol (clean mode)\n");
 
   const provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL);
