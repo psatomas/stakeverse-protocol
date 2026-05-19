@@ -1,28 +1,36 @@
+// frontend/src/contracts/staking.ts
 import {
   Contract,
   formatUnits,
   parseUnits,
 } from "ethers";
 
-import stakingAbi from "./abis/StakeVerseStaking.json";
-
 import { CONTRACTS } from "./index";
-
 import { getSigner } from "../services/web3";
+
+// EXACT MATCH FOR YOUR SOLIDITY SMART CONTRACT:
+// We explicitly define the correct method names ('stakedBalance' and 'calculateRewards')
+const STAKING_HUMAN_ABI = [
+  "function stake(uint256 amount) external",
+  "function unstake(uint256 amount) external",
+  "function claimRewards() external",
+  "function calculateRewards(address user) external view returns (uint256)",
+  "function stakedBalance(address user) external view returns (uint256)",
+  "function stakingTimestamp(address user) external view returns (uint256)",
+  "function rewardRate() external view returns (uint256)"
+];
 
 export async function getStakingContract() {
   const signer = await getSigner();
 
   return new Contract(
     CONTRACTS.staking,
-    stakingAbi.abi,
+    STAKING_HUMAN_ABI,
     signer
   );
 }
 
-export async function stakeTokens(
-  amount: string
-) {
+export async function stakeTokens(amount: string) {
   const contract = await getStakingContract();
 
   const tx = await contract.stake(
@@ -32,9 +40,7 @@ export async function stakeTokens(
   return await tx.wait();
 }
 
-export async function unstakeTokens(
-  amount: string
-) {
+export async function unstakeTokens(amount: string) {
   const contract = await getStakingContract();
 
   const tx = await contract.unstake(
@@ -52,24 +58,30 @@ export async function claimRewards() {
   return await tx.wait();
 }
 
-export async function getPendingRewards(
-  address: string
-) {
-  const contract = await getStakingContract();
+export async function getPendingRewards(address: string) {
+  try {
+    const contract = await getStakingContract();
 
-  const rewards =
-    await contract.getPendingRewards(address);
+    // FIXED: Changed from getPendingRewards to match your Solidity function: calculateRewards(address)
+    const rewards = await contract.calculateRewards(address);
 
-  return formatUnits(rewards, 18);
+    return formatUnits(rewards, 18);
+  } catch (error) {
+    console.error("Error inside getPendingRewards service block:", error);
+    return "0.0";
+  }
 }
 
-export async function getStakedBalance(
-  address: string
-) {
-  const contract = await getStakingContract();
+export async function getStakedBalance(address: string) {
+  try {
+    const contract = await getStakingContract();
 
-  const balance =
-    await contract.stakes(address);
+    // FIXED: Changed from stakes to match your Solidity mapping getter: stakedBalance(address)
+    const balance = await contract.stakedBalance(address);
 
-  return formatUnits(balance, 18);
+    return formatUnits(balance, 18);
+  } catch (error) {
+    console.error("Error inside getStakedBalance service block:", error);
+    return "0.0";
+  }
 }

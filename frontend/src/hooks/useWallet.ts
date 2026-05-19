@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import {
   connectWallet,
   getCurrentAddress,
@@ -7,22 +6,43 @@ import {
 } from "../services/web3";
 
 export function useWallet() {
-  const [address, setAddress] =
-    useState("");
+  const [address, setAddress] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   async function connect() {
-    await connectWallet();
+    try {
+      setError(null);
+      await connectWallet();
+      await validateNetwork();
 
-    await validateNetwork();
-
-    const currentAddress =
-      await getCurrentAddress();
-
-    setAddress(currentAddress);
+      const currentAddress = await getCurrentAddress();
+      setAddress(currentAddress);
+      console.log("Wallet connected successfully:", currentAddress);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "An error occurred during connection.");
+    }
   }
+
+  // Refresh data cleanly if the user switches accounts or networks manually
+  useEffect(() => {
+    if (!window.ethereum) return;
+
+    const handleChainChanged = () => window.location.reload();
+    const handleAccountsChanged = () => window.location.reload();
+
+    window.ethereum.on("chainChanged", handleChainChanged);
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+    return () => {
+      window.ethereum.removeListener("chainChanged", handleChainChanged);
+      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+    };
+  }, []);
 
   return {
     address,
     connect,
+    error,
   };
 }

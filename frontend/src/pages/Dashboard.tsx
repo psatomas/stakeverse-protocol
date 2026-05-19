@@ -1,53 +1,37 @@
 import { useState } from "react";
-
 import Navbar from "../components/layout/Navbar";
-
 import StatsGrid from "../components/dashboard/StatsGrid";
-
 import StakingPanel from "../components/staking/StakingPanel";
-
 import GovernancePanel from "../components/governance/GovernancePanel";
 
 import { useWallet } from "../hooks/useWallet";
-
 import { useDashboard } from "../hooks/useDashboard";
-
 import { approveTokens } from "../contracts/token";
-
-import {
-  stakeTokens,
-  claimRewards,
-} from "../contracts/staking";
+import { stakeTokens, claimRewards } from "../contracts/staking";
 
 export default function Dashboard() {
-  const { address, connect } =
-    useWallet();
+  // 1. Fetch the user's wallet connection state
+  const { address, connect } = useWallet();
 
+  // 2. FIXED: Feed the stateful address string directly into your dashboard hook argument
   const {
     balance,
     staked,
     rewards,
     reload,
-  } = useDashboard();
+  } = useDashboard(address);
 
-  const [amount, setAmount] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
+  const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleApprove() {
     try {
       setLoading(true);
-
       await approveTokens(amount);
-
       await reload();
-
       alert("Tokens approved");
     } catch (error) {
       console.error(error);
-
       alert("Approval failed");
     } finally {
       setLoading(false);
@@ -57,15 +41,11 @@ export default function Dashboard() {
   async function handleStake() {
     try {
       setLoading(true);
-
       await stakeTokens(amount);
-
       await reload();
-
       alert("Tokens staked");
     } catch (error) {
       console.error(error);
-
       alert("Stake failed");
     } finally {
       setLoading(false);
@@ -75,15 +55,11 @@ export default function Dashboard() {
   async function handleClaim() {
     try {
       setLoading(true);
-
       await claimRewards();
-
       await reload();
-
       alert("Rewards claimed");
     } catch (error) {
       console.error(error);
-
       alert("Claim failed");
     } finally {
       setLoading(false);
@@ -116,7 +92,11 @@ export default function Dashboard() {
         </section>
 
         <section>
-          <GovernancePanel />
+          {/* CRITICAL DESIGN ALIGNMENT: 
+            Pass the address property downward to the GovernancePanel component too, 
+            so its internal useGovernance(address) call doesn't run early or cause errors!
+          */}
+          <GovernancePanel address={address} />
         </section>
       </main>
     </div>

@@ -1,58 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { getTokenBalance } from "../contracts/token";
+import { getPendingRewards, getStakedBalance } from "../contracts/staking";
 
-import {
-  getTokenBalance,
-} from "../contracts/token";
+// Accept the active wallet address as a parameter
+export function useDashboard(address: string) {
+  const [balance, setBalance] = useState("0");
+  const [staked, setStaked] = useState("0");
+  const [rewards, setRewards] = useState("0");
+  const [loading, setLoading] = useState(false);
 
-import {
-  getPendingRewards,
-  getStakedBalance,
-} from "../contracts/staking";
+  const load = useCallback(async () => {
+    // GATEKEEPER: Prevent any execution if the wallet infrastructure isn't ready
+    if (!address) return;
 
-import { getCurrentAddress } from "../services/web3";
-
-export function useDashboard() {
-  const [balance, setBalance] =
-    useState("0");
-
-  const [staked, setStaked] =
-    useState("0");
-
-  const [rewards, setRewards] =
-    useState("0");
-
-  async function load() {
     try {
-      const address =
-        await getCurrentAddress();
-
-      const tokenBalance =
-        await getTokenBalance(address);
-
-      const stakedBalance =
-        await getStakedBalance(address);
-
-      const pendingRewards =
-        await getPendingRewards(address);
+      setLoading(true);
+      
+      const tokenBalance = await getTokenBalance(address);
+      const stakedBalance = await getStakedBalance(address);
+      const pendingRewards = await getPendingRewards(address);
 
       setBalance(tokenBalance);
-
       setStaked(stakedBalance);
-
       setRewards(pendingRewards);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to load dashboard balances:", error);
+    } finally {
+      setLoading(false);
     }
-  }
+  }, [address]);
 
+  // Automatically fires layout loading when address changes from "" to valid
   useEffect(() => {
     load();
-  }, []);
+  }, [load]);
 
   return {
     balance,
     staked,
     rewards,
+    loading,
     reload: load,
   };
 }

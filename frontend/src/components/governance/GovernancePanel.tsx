@@ -1,10 +1,14 @@
 import { useState } from "react";
-
 import ProposalCard from "./ProposalCard";
-
 import { useGovernance } from "../../hooks/useGovernance";
 
-export default function GovernancePanel() {
+// Define the type interface for the component props
+interface GovernancePanelProps {
+  address: string;
+}
+
+export default function GovernancePanel({ address }: GovernancePanelProps) {
+  // Pass the stateful wallet address straight into the custom hook
   const {
     proposals,
     loading,
@@ -13,10 +17,9 @@ export default function GovernancePanel() {
     voteYes,
     voteNo,
     submitProposal,
-  } = useGovernance();
+  } = useGovernance(address);
 
-  const [description, setDescription] =
-    useState("");
+  const [description, setDescription] = useState("");
 
   async function handleSubmit() {
     if (!description.trim()) {
@@ -24,8 +27,19 @@ export default function GovernancePanel() {
     }
 
     await submitProposal(description);
-
     setDescription("");
+  }
+
+  // GUEST STATE VIEW: If the wallet isn't connected, hide the panel content and prevent errors
+  if (!address) {
+    return (
+      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 text-center text-zinc-400">
+        <h2 className="mb-2 text-2xl font-bold text-white">Governance</h2>
+        <p className="text-zinc-500">
+          Please connect your MetaMask wallet to Sepolia to view and participate in protocol proposals.
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -43,7 +57,7 @@ export default function GovernancePanel() {
             onChange={(e) =>
               setDescription(e.target.value)
             }
-            className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none"
+            className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-indigo-500 transition"
           />
 
           <button
@@ -51,14 +65,14 @@ export default function GovernancePanel() {
             disabled={txLoading}
             className="rounded-xl bg-indigo-600 px-6 py-3 font-medium text-white transition hover:bg-indigo-500 disabled:opacity-50"
           >
-            Create
+            {txLoading ? "Processing..." : "Create"}
           </button>
         </div>
       </div>
 
       {loading && (
-        <div className="text-zinc-400">
-          Loading proposals...
+        <div className="text-zinc-400 animate-pulse">
+          Loading proposals from Sepolia...
         </div>
       )}
 

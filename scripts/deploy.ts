@@ -5,9 +5,6 @@ import "dotenv/config";
 async function main() {
   const pk = process.env.SEPOLIA_PRIVATE_KEY;
 
-  console.log("PK exists:", !!pk);
-  console.log("PK length:", pk?.length);
-  console.log("PK starts with 0x:", pk?.startsWith("0x"));
   console.log("🚀 Deploying StakeVerse Protocol (clean mode)\n");
 
   const provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL);
@@ -29,7 +26,7 @@ async function main() {
     wallet
   );
 
-  const Token = await TokenFactory.deploy();
+  const Token = await TokenFactory.deploy(wallet.address);
   await Token.waitForDeployment();
 
   const tokenAddress = await Token.getAddress();
@@ -44,7 +41,7 @@ async function main() {
     wallet
   );
 
-  const NFT = await NFTFactory.deploy();
+  const NFT = await NFTFactory.deploy(wallet.address);
   await NFT.waitForDeployment();
 
   const nftAddress = await NFT.getAddress();
@@ -59,7 +56,10 @@ async function main() {
     wallet
   );
 
-  const Staking = await StakingFactory.deploy(tokenAddress);
+  const Staking = await StakingFactory.deploy(
+    tokenAddress,
+    wallet.address
+  );
   await Staking.waitForDeployment();
 
   const stakingAddress = await Staking.getAddress();
@@ -74,7 +74,10 @@ async function main() {
     wallet
   );
 
-  const DAO = await DAOFactory.deploy(tokenAddress);
+  const DAO = await DAOFactory.deploy(
+    tokenAddress,
+    wallet.address
+  );
   await DAO.waitForDeployment();
 
   const daoAddress = await DAO.getAddress();
@@ -89,7 +92,9 @@ async function main() {
     wallet
   );
 
-  const Oracle = await OracleFactory.deploy();
+  const Oracle = await OracleFactory.deploy(
+    process.env.CHAINLINK_PRICE_FEED
+  );
   await Oracle.waitForDeployment();
 
   const oracleAddress = await Oracle.getAddress();

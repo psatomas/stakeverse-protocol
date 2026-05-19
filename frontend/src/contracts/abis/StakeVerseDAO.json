@@ -1,7 +1,7 @@
 {
   "_format": "hh3-artifact-1",
   "contractName": "StakeVerseDAO",
-  "sourceName": "contracts/governance/StakeVerseDAO.sol",
+  "sourceName": "contracts/StakeVerseDAO.sol",
   "abi": [
     {
       "inputs": [
