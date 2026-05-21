@@ -4,6 +4,9 @@
 *   [English Version (# English)](#-english)
 *   [Versão em Português (# Português)](#-português)
 
+📸 **Quick Access / Acesso Rápido:**
+*   [Skip to Interface Preview ⚡](#main-dashboard--painel-principal)
+
 ---
 
 # 🇺🇸 English
