@@ -28,14 +28,18 @@ export default defineConfig({
     sepolia: {
       type: "http",
       chainType: "l1",
-      // Lendo diretamente as variáveis de ambiente carregadas pelo dotenv
       url: process.env.SEPOLIA_RPC_URL || "",
       accounts: process.env.SEPOLIA_PRIVATE_KEY ? [process.env.SEPOLIA_PRIVATE_KEY] : [],
     },
   },
 
-  // Configuração para verificação automatizada no Etherscan
+  // O plugin moderno espera o objeto nomeado como "sourcify" ou "etherscan" dentro de uma chave de configuração estendida.
+  // Para evitar problemas com o 'as any', mantemos a estrutura padrão que o plugin consome:
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY || "",
   },
+  // Dica extra: Se quiser habilitar o Sourcify (que o Etherscan também usa para checar código aberto)
+  sourcify: {
+    enabled: true
+  }
 } as any);

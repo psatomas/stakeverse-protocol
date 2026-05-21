@@ -59,8 +59,6 @@ The protocol's security was validated using static analysis tools (*Slither* and
 │   └── StakeVerseToken.sol
 ├── deployment/             # Testnet deployment artifacts and addresses
 │   └── sepolia.json
-├── docs/                   # Architecture documentation and diagrams
-│   └── diagrams/
 ├── frontend/               # Web Application (React + TypeScript + Vite + Tailwind)
 │   ├── src/
 │   │   ├── components/     # UI Components (Cards, Modals)
@@ -174,18 +172,15 @@ npm run dev
 
 The contracts were successfully deployed to the **Ethereum Sepolia Network (Chain ID: 11155111)**. Generated on-chain artifacts and addresses are mapped and stored in `/deployment/sepolia.json`.
 
-*   **StakeVerseToken (ERC-20):** `0x1695059AE16EA39f66978a63e5199E8BBa7e76C1`
-*   **StakeVerseNFT (ERC-721):** `0x499530539E80b26A573c6C5c0583e4067dcCd836`
-*   **StakeVerseStaking:** `0xbAd2743efbA270CCB844015C28213932D9e36E33`
-*   **StakeVerseDAO:** `0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55`
-*   **PriceOracleConsumer:** `0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02`
+### 🔍 Explorer Quick Links (Blockscout)
+*   📜 **StakeVerseToken (ERC-20):** [0x1695059AE16EA39f66978a63e5199E8BBa7e76C1](https://eth-sepolia.blockscout.com/address/0x1695059AE16EA39f66978a63e5199E8BBa7e76C1?tab=contract)
+*   🎫 **StakeVerseNFT (ERC-721):** [0x499530539E80b26A573c6C5c0583e4067dcCd836](https://eth-sepolia.blockscout.com/address/0x499530539E80b26A573c6C5c0583e4067dcCd836?tab=contract_code)
+*   🥩 **StakeVerseStaking:** [0xbAd2743efbA270CCB844015C28213932D9e36E33](https://eth-sepolia.blockscout.com/address/0xbAd2743efbA270CCB844015C28213932D9e36E33?tab=contract)
+*   🏛️ **StakeVerseDAO:** [0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55](https://eth-sepolia.blockscout.com/address/0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55?tab=contract)
+*   🔮 **PriceOracleConsumer:** [0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02](https://eth-sepolia.blockscout.com/address/0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02?tab=contract)
+
 
 ⚠️ **Environment Security Note:** During the deployment pipeline execution, any local credentials risk was mitigated by rotating the environment variables and enforcing strict infrastructure RPC provider access bounds, ensuring the integrity and isolation of this academic project.
-
-### 🔗 Project Links
-*   **Block Explorer Link (Etherscan):** [https://sepolia.etherscan.io/address/0x1695059AE16EA39f66978a63e5199E8BBa7e76C1](https://sepolia.etherscan.io/)
-*   **GitHub Repository:** *(Insert your GitHub repository link here)*
-*   **Video Demonstration (5-10 min):** *(Insert your video submission link here)*
 
 ---
 
@@ -242,8 +237,6 @@ A segurança do protocolo foi validada por ferramentas de análise estática (*S
 │   └── StakeVerseToken.sol
 ├── deployment/             # Artefatos e endereços do deploy em testnet
 │   └── sepolia.json
-├── docs/                   # Diagramas e documentação de arquitetura
-│   └── diagrams/
 ├── frontend/               # Aplicação Web (React + TypeScript + Vite + Tailwind)
 │   ├── src/
 │   │   ├── components/     # Componentes visuais isolados (Cards, Modais)
@@ -355,12 +348,23 @@ npm run dev
 
 ## 🌐 Detalhes do Deploy e Entregáveis (Sepolia Testnet)
 
-Os contratos foram implantados com sucesso na rede **Ethereum Sepolia (Chain ID: 11155111)**. Os artefatos e endereços on-chain gerados foram mapeados e persistidos no arquivo `/deployment/sepolia.json`.
+Os contratos foram implantados com sucesso na rede **Ethereum Sepolia (Chain ID: 11155111)**. Os artefatos e endereços on-chain gerados foram mapeados e compartilhados publicamente no explorador.
 
-*   **StakeVerseToken (ERC-20):** `0x1695059AE16EA39f66978a63e5199E8BBa7e76C1`
-*   **StakeVerseNFT (ERC-721):** `0x499530539E80b26A573c6C5c0583e4067dcCd836`
-*   **StakeVerseStaking:** `0xbAd2743efbA270CCB844015C28213932D9e36E33`
-*   **StakeVerseDAO:** `0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55`
-*   **PriceOracleConsumer:** `0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02`
+### 🔍 Links Rápidos no Explorador (Blockscout)
+*   📜 **StakeVerseToken (ERC-20):** [0x1695059AE16EA39f66978a63e5199E8BBa7e76C1](https://eth-sepolia.blockscout.com/address/0x1695059AE16EA39f66978a63e5199E8BBa7e76C1?tab=contract)
+*   🎫 **StakeVerseNFT (ERC-721):** [0x499530539E80b26A573c6C5c0583e4067dcCd836](https://eth-sepolia.blockscout.com/address/0x499530539E80b26A573c6C5c0583e4067dcCd836?tab=contract_code)
+*   🥩 **StakeVerseStaking:** [0xbAd2743efbA270CCB844015C28213932D9e36E33](https://eth-sepolia.blockscout.com/address/0xbAd2743efbA270CCB844015C28213932D9e36E33?tab=contract)
+*   🏛️ **StakeVerseDAO:** [0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55](https://eth-sepolia.blockscout.com/address/0xE500041A14Bbea0a1aD7AC36b59f99BdAfC80E55?tab=contract)
+*   🔮 **PriceOracleConsumer:** [0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02](https://eth-sepolia.blockscout.com/address/0x0985528C81c29cb268dE13AB7D2eFAb88DCd4A02?tab=contract)
 
-⚠️ **Nota de Segurança do Ambiente:** Durante a execução do pipeline de deploy, mitigou-se qualquer exposição local de credenciais rotacionando imediatamente as variáveis de ambiente e aplicando restrições de provedor nas chamadas de infraestrutura RPC, garantindo a integridade e o total isolamento do projeto acadêmico.git s
+⚠️ **Nota de Segurança do Ambiente:** Durante a execução do pipeline de deploy, mitigou-se qualquer exposição local de credenciais rotacionando imediatamente as variáveis de ambiente e aplicando restrições de provedor nas chamadas de infraestrutura RPC, garantindo a integridade e o total isolamento do projeto acadêmico.
+
+---
+
+## 🖼️ Application Interface / Interface da Aplicação
+
+### Main Dashboard / Painel Principal
+![StakeVerse Dashboard](frontend/public/screenshots/dashboard.png)
+* **🇺🇸 EN:** Main protocol user interface, featuring decentralized wallet connection status, staking interactions (approve/deposit), real-time reward distribution tracking, and active DAO proposal mechanics.
+* **🇧🇷 PT-BR:** Interface principal do usuário do protocolo, apresentando status de conexão de carteira descentralizada, interações de staking (aprovação/depósito), rastreamento de distribuição de recompensas em tempo real e mecânicas de propostas ativas da DAO.
+```
